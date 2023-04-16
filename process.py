@@ -3,21 +3,29 @@ from enum import Enum
 
 r = [.3276, .8851, .1643, .5542, .6813, .7221]
 
+random.seed(123)
+
+
 class Direction(Enum):
     IN = 'IN'
     OUT = 'OUT'
 
 
 class Process:
-    def __init__(self, global_time=.0, direction: Direction=Direction.IN, relative_time=None):
+    ARRIVAL = (1, 2)
+    RUNNING = (2, 4)
+
+    def __init__(self, global_time=.0, direction: Direction = Direction.IN, relative_time=None):
         self.direction = direction
         if relative_time is not None:
             self.relative_time = relative_time
         elif direction == Direction.IN:
-            self.relative_time = (2 - 1) * random.random() + 1 + global_time
+            self.relative_time = (
+                self.ARRIVAL[1] - self.ARRIVAL[0]) * random.random() + self.ARRIVAL[0] + global_time
         else:
-            self.relative_time = (6 - 3) * random.random() + 3 + global_time
-        
+            self.relative_time = (
+                self.RUNNING[1] - self.RUNNING[0]) * random.random() + self.RUNNING[0] + global_time
+
     def __lt__(self, other):
         return self.relative_time < other.relative_time
 

@@ -1,21 +1,20 @@
-import pandas as pd
-
 from process import *
-
-import colorama
-from colorama import Fore, Style
 
 
 class Memory:
 
-    def __init__(self, K: int = -1, C: int = 1) -> None:
+    def __init__(self, arrival, running, K: int, C: int, S: float) -> None:
         self.K = K
         self.C = C
+        self.S = S
         self.memory_states = [.0 for _ in range(K + 1)]
         self.job_queue: list[Process] = []
         self.server = 0
         self.ocup: int = 0
         self.tempo: float = 0.
+        
+        Process.ARRIVAL = arrival
+        Process.RUNNING = running
 
         self.job_history = []
 
@@ -45,7 +44,7 @@ class Memory:
             self.job_queue.append(Process(self.tempo, Direction.OUT))
 
     def run(self):
-        self.job_queue.append(Process(relative_time=2.))
+        self.job_queue.append(Process(relative_time=self.S))
 
         for _ in range(10):
             input(":")
