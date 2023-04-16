@@ -3,10 +3,11 @@ from process import *
 
 class Memory:
 
-    def __init__(self, arrival, running, K: int, C: int, S: float) -> None:
+    def __init__(self, arrival, running, K: int, C: int, S: float, I:int) -> None:
         self.K = K
         self.C = C
         self.S = S
+        self.I = I
         self.memory_states = [.0 for _ in range(K + 1)]
         self.job_queue: list[Process] = []
         self.server = 0
@@ -46,7 +47,7 @@ class Memory:
     def run(self):
         self.job_queue.append(Process(relative_time=self.S))
 
-        for _ in range(10):
+        for _ in range(self.I):
             input(":")
             self.job_history += [
                 j.relative_time for j in self.job_queue if j.relative_time not in self.job_history]

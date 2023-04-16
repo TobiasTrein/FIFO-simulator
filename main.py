@@ -22,6 +22,7 @@ def main():
                         help='running interval. e.g. "3..6"')
     parser.add_argument('-s', '--start', type=float,
                         help='start time. e.g. 2.0')
+    parser.add_argument('-i', type=int, help='iterations')
     args = parser.parse_args()
 
     if all(arg is not None for arg in vars(args).values()):
@@ -32,6 +33,7 @@ def main():
         K = args.k
         C = args.c
         S = args.start
+        I = args.i
     else:
         logging.debug("Using config file")
 
@@ -43,6 +45,7 @@ def main():
                 K = int(f.readline().strip())
                 C = int(f.readline().strip())
                 S = float(f.readline().strip())
+                I = int(f.readline().strip())
         else:
             logging.debug("Using defaults")
 
@@ -51,9 +54,10 @@ def main():
             K = 3
             C = 1
             S = 2.
+            I = 10
 
     # import pdb; pdb.set_trace()
-    Memory(arrival, running, K, C, S).run()
+    Memory(arrival, running, K, C, S, I).run()
 
 
 if __name__ == '__main__':
