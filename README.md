@@ -2,6 +2,11 @@
 
 This program simulates a simple queue with a given number of server processes and capacity. It uses an event-based simulation approach and allows the user to specify the arrival and running time of jobs in the memory.
 
+##Authors
+Delmar Lucas Dorneles Quaresma (https://github.com/LucasDornelesQuaresma)
+João Victor Zucco Marmentini (https://github.com/jvzmarmentini)
+Tobias Trein(https://github.com/TobiasTrein)
+
 ## Prerequisites
 
 To run this script, you will need to have Python installed on your computer. The script has been developed and tested on Python 3.
