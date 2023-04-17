@@ -36,7 +36,7 @@ class Memory:
                 self.server += 1
                 self.job_queue.append(Process(self.seed, self.tempo, Direction.OUT))
 
-        self.job_queue.append(Process(self.seed, self.tempo, Direction.IN, self.seed))
+        self.job_queue.append(Process(self.seed, self.tempo, Direction.IN))
 
     def procOut(self, t: float) -> None:
         self.memory_states[self.ocup] += t - self.tempo
@@ -45,14 +45,14 @@ class Memory:
         self.ocup -= 1
         if self.ocup >= 1:
             self.server -= 1
-            self.job_queue.append(Process(self.seed, self.tempo, Direction.OUT, self.seed))
+            self.job_queue.append(Process(self.seed, self.tempo, Direction.OUT))
 
     def run(self):
-        self.job_queue.append(Process(self.seed, relative_time=self.S))
+        self.job_queue.append(Process(seed=self.seed, relative_time=self.S))
 
         for _ in range(self.I):
-            if self.D:
-                input(":")
+            #if self.D:
+                #input(":")
             self.job_history += [
                 j.relative_time for j in self.job_queue if j.relative_time not in self.job_history]
 
