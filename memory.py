@@ -48,7 +48,7 @@ class Memory:
         self.job_queue.append(Process(relative_time=self.S))
 
         for _ in range(self.I):
-            input(":")
+            #input(":")
             self.job_history += [
                 j.relative_time for j in self.job_queue if j.relative_time not in self.job_history]
 
@@ -65,3 +65,4 @@ class Memory:
                 self.procIn(next_proc.relative_time)
             else:
                 self.procOut(next_proc.relative_time)
+        return self.memory_states

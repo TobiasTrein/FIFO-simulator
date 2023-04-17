@@ -23,6 +23,7 @@ def main():
     parser.add_argument('-s', '--start', type=float,
                         help='start time. e.g. 2.0')
     parser.add_argument('-i', type=int, help='iterations')
+    parser.add_argument('-e', type=int, help='executions')
     args = parser.parse_args()
 
     if all(arg is not None for arg in vars(args).values()):
@@ -34,6 +35,7 @@ def main():
         C = args.c
         S = args.start
         I = args.i
+        E = args.e
     else:
         logging.debug("Using config file")
 
@@ -46,6 +48,7 @@ def main():
                 C = int(f.readline().strip())
                 S = float(f.readline().strip())
                 I = int(f.readline().strip())
+                E = int(f.readline().strip())
         else:
             logging.debug("Using defaults")
 
@@ -55,10 +58,26 @@ def main():
             C = 1
             S = 2.
             I = 10
+            E = 5
 
     # import pdb; pdb.set_trace()
-    Memory(arrival, running, K, C, S, I).run()
+    result = []
+    for _ in range(E):
+        result.append(Memory(arrival, running, K, C, S, I).run())
+   
+    medias_estados = []
+    per_estados = []
+    matriz_transposta = list(zip(*result))
+    for linha in matriz_transposta:
+        media = sum(linha) / len(linha)
+        medias_estados.append(media)
+    for m in medias_estados:
+        per_estados.append((m/sum(medias_estados)) * 100)
 
+    for i, linha in enumerate(medias_estados):
+        porcentagem = per_estados[i]
+        media = medias_estados[i]
+        print(f"Estado {i}: {media:0.4f} u.t.\t{porcentagem:.2f}%")
 
 if __name__ == '__main__':
     main()
