@@ -1,4 +1,5 @@
 from process import *
+import time
 
 
 class Memory:
@@ -13,7 +14,8 @@ class Memory:
         self.server = 0
         self.ocup: int = 0
         self.tempo: float = 0.
-        
+        self.seed = int(time.time())
+
         Process.ARRIVAL = arrival
         Process.RUNNING = running
 
@@ -31,9 +33,9 @@ class Memory:
 
             if self.server < self.C:
                 self.server += 1
-                self.job_queue.append(Process(self.tempo, Direction.OUT))
+                self.job_queue.append(Process(self.seed, self.tempo, Direction.OUT))
 
-        self.job_queue.append(Process(self.tempo, Direction.IN))
+        self.job_queue.append(Process(self.seed, self.tempo, Direction.IN, self.seed))
 
     def procOut(self, t: float) -> None:
         self.memory_states[self.ocup] += t - self.tempo
@@ -42,10 +44,10 @@ class Memory:
         self.ocup -= 1
         if self.ocup >= 1:
             self.server -= 1
-            self.job_queue.append(Process(self.tempo, Direction.OUT))
+            self.job_queue.append(Process(self.seed, self.tempo, Direction.OUT, self.seed))
 
     def run(self):
-        self.job_queue.append(Process(relative_time=self.S))
+        self.job_queue.append(Process(self.seed, relative_time=self.S))
 
         for _ in range(self.I):
             #input(":")

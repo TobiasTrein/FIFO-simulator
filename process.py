@@ -3,8 +3,6 @@ from enum import Enum
 
 r = [.3276, .8851, .1643, .5542, .6813, .7221]
 
-random.seed(123)
-
 
 class Direction(Enum):
     IN = 'IN'
@@ -15,7 +13,8 @@ class Process:
     ARRIVAL = (1, 2)
     RUNNING = (2, 4)
 
-    def __init__(self, global_time=.0, direction: Direction = Direction.IN, relative_time=None):
+    def __init__(self, seed, global_time=.0, direction: Direction = Direction.IN, relative_time=None):
+        random.seed(seed)
         self.direction = direction
         if relative_time is not None:
             self.relative_time = relative_time
