@@ -4,11 +4,12 @@ import time
 
 class Memory:
 
-    def __init__(self, arrival, running, K: int, C: int, S: float, I:int) -> None:
+    def __init__(self, arrival, running, K: int, C: int, S: float, I:int, D:bool) -> None:
         self.K = K
         self.C = C
         self.S = S
         self.I = I
+        self.D = D
         self.memory_states = [.0 for _ in range(K + 1)]
         self.job_queue: list[Process] = []
         self.server = 0
@@ -50,18 +51,21 @@ class Memory:
         self.job_queue.append(Process(self.seed, relative_time=self.S))
 
         for _ in range(self.I):
-            #input(":")
+            if self.D:
+                input(":")
             self.job_history += [
                 j.relative_time for j in self.job_queue if j.relative_time not in self.job_history]
 
             self.job_queue.sort()
             next_proc = self.job_queue.pop(0)
-            print(f"{next_proc}\t\t{self}")
-            
+            if self.D:
+                print(f"{next_proc}\t\t{self}")
+          
             prev_ids = set(self.job_history)
             curr_ids = set([item.relative_time for item in self.job_queue])
-            print(curr_ids)
-            print(prev_ids - curr_ids)
+            if self.D:
+                print(curr_ids)
+                print(prev_ids - curr_ids)
 
             if next_proc.direction == Direction.IN:
                 self.procIn(next_proc.relative_time)

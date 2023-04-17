@@ -11,7 +11,7 @@ To run this script, you will need to have Python installed on your computer. The
 You can run the script with the following command:
 
 ```python
-python main.py -k <int> -c <int> -a <string> -r <string> -s <float> -i <int> -e <int>
+python main.py -k <int> -c <int> -a <string> -r <string> -s <float> -i <int> -e <int> -d <bool>
 ```
 
 Where the options are:
@@ -22,6 +22,7 @@ Where the options are:
 + -r: running interval, in the format "start..end"
 + -s: start time
 + -e: executions
++ -d: debug
 
 You can also provide a config.txt file with the same options as above, one option per line, in the following order:
 
@@ -33,6 +34,7 @@ C
 start time
 iterations
 number of executions
+debug
 ```
 
 If the config.txt file is not present, the script will use default values.

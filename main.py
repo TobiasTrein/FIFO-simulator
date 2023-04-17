@@ -24,6 +24,7 @@ def main():
                         help='start time. e.g. 2.0')
     parser.add_argument('-i', type=int, help='iterations')
     parser.add_argument('-e', type=int, help='executions')
+    parser.add_argument('-d', type=bool, help='True for debug')
     args = parser.parse_args()
 
     if all(arg is not None for arg in vars(args).values()):
@@ -36,6 +37,7 @@ def main():
         S = args.start
         I = args.i
         E = args.e
+        D = args.d
     else:
         logging.debug("Using config file")
 
@@ -49,6 +51,7 @@ def main():
                 S = float(f.readline().strip())
                 I = int(f.readline().strip())
                 E = int(f.readline().strip())
+                D = bool(f.readline().strip().lower() != "false")
         else:
             logging.debug("Using defaults")
 
@@ -59,12 +62,13 @@ def main():
             S = 2.
             I = 10
             E = 5
+            D = True
 
     # import pdb; pdb.set_trace()
     result = []
     for _ in range(E):
-        result.append(Memory(arrival, running, K, C, S, I).run())
-   
+        result.append(Memory(arrival, running, K, C, S, I, D).run())
+
     medias_estados = []
     per_estados = []
     matriz_transposta = list(zip(*result))
