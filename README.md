@@ -2,10 +2,13 @@
 
 This program simulates a simple queue with a given number of server processes and capacity. It uses an event-based simulation approach and allows the user to specify the arrival and running time of jobs in the memory.
 
+##Execution Video
+https://youtu.be/ntCMsJdiD6k
+
 ##Authors
-Delmar Lucas Dorneles Quaresma (https://github.com/LucasDornelesQuaresma)
-João Victor Zucco Marmentini (https://github.com/jvzmarmentini)
-Tobias Trein(https://github.com/TobiasTrein)
++ Delmar Lucas Dorneles Quaresma (https://github.com/LucasDornelesQuaresma)
++ João Victor Zucco Marmentini (https://github.com/jvzmarmentini)
++ Tobias Trein(https://github.com/TobiasTrein)
 
 ## Prerequisites
 
