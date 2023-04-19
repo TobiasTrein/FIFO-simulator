@@ -1,0 +1,15 @@
+1 servidor
+Estado 0: 7.4906 u.t.   0.00%
+Estado 1: 8.9439 u.t.   0.00%
+Estado 2: 7.0000 u.t.   0.00%
+Estado 3: 2.4906 u.t.   0.00%
+Estado 4: 4.9626 u.t.   0.00%
+Estado 5: 249011.4008 u.t.      99.99%
+
+2 servidores
+Estado 0: 8.7610 u.t.   0.00%
+Estado 1: 9.6415 u.t.   0.00%
+Estado 2: 4.8805 u.t.   0.00%
+Estado 3: 2.8805 u.t.   0.00%
+Estado 4: 2.8805 u.t.   0.00%
+Estado 5: 288004.9711 u.t.      99.99%
