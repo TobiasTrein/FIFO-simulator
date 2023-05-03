@@ -1,4 +1,5 @@
 import random
+import time
 from enum import Enum
 
 r = [.3276, .8851, .1643, .5542, .6813, .7221]
@@ -9,12 +10,14 @@ class Direction(Enum):
     OUT = 'OUT'
 
 
+# random.seed(int(time.time()))
+random.seed(123)
+
 class Process:
     ARRIVAL = (1, 2)
-    RUNNING = (2, 4)
+    RUNNING = (3, 4)
 
-    def __init__(self, seed, global_time=.0, direction: Direction = Direction.IN, relative_time=None):
-        random.seed(seed)
+    def __init__(self, global_time=.0, direction: Direction = Direction.IN, relative_time=None):
         self.direction = direction
         if relative_time is not None:
             self.relative_time = relative_time
@@ -28,5 +31,8 @@ class Process:
     def __lt__(self, other):
         return self.relative_time < other.relative_time
 
+    def __repr__(self) -> str:
+        return f"Process({self.relative_time=},{self.direction=})"
+    
     def __str__(self) -> str:
-        return f"{self.direction.name}\t{'{0:0.4f}'.format(self.relative_time)}"
+        return f"[{self.direction._name_}, {self.relative_time}]"

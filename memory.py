@@ -1,74 +1,109 @@
-from process import *
 import time
+import logging
+
+from queue import PriorityQueue
+from dataclasses import dataclass
+
+from process import Direction, Process
+import loggin_config
 
 
+@dataclass
 class Memory:
+    """
+    Class for simulating a queue.
 
-    def __init__(self, arrival, running, K: int, C: int, S: float, I:int, D:bool) -> None:
-        self.K = K
-        self.C = C
-        self.S = S
-        self.I = I
-        self.D = D
-        self.memory_states = [.0 for _ in range(K + 1)]
-        self.job_queue: list[Process] = []
-        self.server = 0
-        self.ocup: int = 0
-        self.tempo: float = 0.
-        self.seed = int(time.time())
+    Args:
+        arrival (tuple[float, float]): Interval of time for a new job to arrive.
+        running (tuple[float, float]): Interval of time for a job to be executed.
+        capacity (int): Maximum capacity of the memory.
+        workers (int): Number of workers or servers.
+        start_time (float): Initial time for the simulation.
 
-        Process.ARRIVAL = arrival
-        Process.RUNNING = running
+    Attributes:
+        memory_states (list[float]): Memory state for each possible number of occupied blocks.
+        job_queue (PriorityQueue): Jobs that are waiting to be executed.
+        server (int): An integer that represents the number of workers being used.
+        ocup (int): An integer that represents the number of blocks occupied.
+        tempo (float): A float that represents the current time.
+        seed (int): An integer that represents the seed for generating random numbers.
 
-        self.job_history = []
+    """
+    arrival: tuple[float, float]
+    running: tuple[float, float]
+    capacity: int
+    workers: int
+    start_time: float
 
-    def __str__(self) -> str:
-        return f"{self.ocup}\tt={'{0:0.4f}'.format(self.tempo)}\t{' '.join(['{0:0.4f}'.format(i) for i in self.memory_states])}"
+    memory_states: list[float] = None
+    job_queue: PriorityQueue = None
+    ocup: int = 0
+    tempo: float = 0.
 
-    def procIn(self, t: float) -> None:
-        self.memory_states[self.ocup] += t - self.tempo
-        self.tempo = t
+    def __post_init__(self):
+        self.memory_states = [.0 for _ in range(self.capacity + 1)]
+        self.job_queue = PriorityQueue()
 
-        if self.ocup < self.K:
+        Process.ARRIVAL = self.arrival
+        Process.RUNNING = self.running
+
+    def __repr__(self) -> str:
+        return f"Memory({Process.ARRIVAL=}, {Process.RUNNING=}, {self.capacity=}, {self.workers=}, {self.start_time=})"
+
+    def proc_in(self, arriving_time: float) -> None:
+        """
+        Process an incoming job.
+
+        Args:
+            t (float): The time of arrival of the job.
+        """
+        self.memory_states[self.ocup] += arriving_time - self.tempo
+        self.tempo = arriving_time
+
+        if self.ocup < self.capacity:
             self.ocup += 1
 
-            if self.server < self.C:
-                self.server += 1
-                self.job_queue.append(Process(self.seed, self.tempo, Direction.OUT))
+            if self.ocup <= self.workers:
+                self.job_queue.put(
+                    Process(self.tempo, Direction.OUT))
 
-        self.job_queue.append(Process(self.seed, self.tempo, Direction.IN))
+        self.job_queue.put(Process(self.tempo, Direction.IN))
 
-    def procOut(self, t: float) -> None:
-        self.memory_states[self.ocup] += t - self.tempo
-        self.tempo = t
+    def proc_out(self, arriving_time: float) -> None:
+        """
+        Process an outcoming job.
+
+        Args:
+            t (float): The time of arrival of the job.
+        """
+        self.memory_states[self.ocup] += arriving_time - self.tempo
+        self.tempo = arriving_time
 
         self.ocup -= 1
         if self.ocup >= 1:
-            self.server -= 1
-            self.job_queue.append(Process(self.seed, self.tempo, Direction.OUT))
+            self.job_queue.put(Process(self.tempo, Direction.OUT))
 
-    def run(self):
-        self.job_queue.append(Process(seed=self.seed, relative_time=self.S))
+    def run(self, iterations):
+        """
+        Run the simulation.
 
-        for _ in range(self.I):
-            #if self.D:
-                #input(":")
-            self.job_history += [
-                j.relative_time for j in self.job_queue if j.relative_time not in self.job_history]
+        Returns:
+            List[float]: The state of the memory at the end of the simulation.
+        """
+        self.job_queue.put(Process(relative_time=self.start_time))
 
-            self.job_queue.sort()
-            next_proc = self.job_queue.pop(0)
-            if self.D:
-                print(f"{next_proc}\t\t{self}")
-          
-            prev_ids = set(self.job_history)
-            curr_ids = set([item.relative_time for item in self.job_queue])
-            if self.D:
-                print(curr_ids)
-                print(prev_ids - curr_ids)
+        for i in range(iterations):
+            logging.info("--- iteration = %i", i)
+            next_proc = self.job_queue.get()
 
             if next_proc.direction == Direction.IN:
-                self.procIn(next_proc.relative_time)
+                self.proc_in(next_proc.relative_time)
             else:
-                self.procOut(next_proc.relative_time)
+                self.proc_out(next_proc.relative_time)
+
+            logging.info("memory state = %s", self.memory_states)
+            logging.info("job queue = %s", [str(i) for i in self.job_queue.queue])
+            logging.debug("tempo = %s", self.tempo)
+            logging.debug("memory state sum = %f", sum(self.memory_states))
+
         return self.memory_states

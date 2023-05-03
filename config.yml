@@ -1,0 +1,8 @@
+arrival: [1, 2]
+running: [3, 4]
+capacity: 3
+# queue capacity
+workers: 1
+# number of servers in the queue
+start_time: 2.0
+iterations: 10
