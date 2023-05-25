@@ -1,4 +1,3 @@
-import time
 import logging
 
 from queue import PriorityQueue
@@ -80,7 +79,7 @@ class Memory:
         self.tempo = arriving_time
 
         self.ocup -= 1
-        if self.ocup >= 1:
+        if self.ocup >= self.workers:
             self.job_queue.put(Process(self.tempo, Direction.OUT))
 
     def run(self, iterations):
