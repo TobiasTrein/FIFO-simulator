@@ -1,8 +1,9 @@
-arrival: [1, 2]
-running: [3, 4]
-capacity: 3
+arrival: [2, 4]
+running: [3, 5]
 # queue capacity
-workers: 1
+capacity: 5
 # number of servers in the queue
-start_time: 2.0
-iterations: 10
+workers: 2
+start_time: 3.0
+iterations: 1000
+reps: 3

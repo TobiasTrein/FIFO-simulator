@@ -1,8 +1,6 @@
 import random
-import time
 from enum import Enum
 
-r = [.3276, .8851, .1643, .5542, .6813, .7221]
 
 
 class Direction(Enum):
@@ -11,11 +9,12 @@ class Direction(Enum):
 
 
 # random.seed(int(time.time()))
-random.seed(123)
+random.seed(1345)
 
 class Process:
+    # r = [.3276, .8851, .1643, .5542, .6813, .7221, .9881]
     ARRIVAL = (1, 2)
-    RUNNING = (3, 4)
+    RUNNING = (3, 6)
 
     def __init__(self, global_time=.0, direction: Direction = Direction.IN, relative_time=None):
         self.direction = direction

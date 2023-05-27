@@ -1,11 +1,11 @@
 import logging
+from tqdm import tqdm
 
 from queue import PriorityQueue
 from dataclasses import dataclass
 
 from process import Direction, Process
 import loggin_config
-
 
 @dataclass
 class Memory:
@@ -40,7 +40,7 @@ class Memory:
     tempo: float = 0.
 
     def __post_init__(self):
-        self.memory_states = [.0 for _ in range(self.capacity + 1)]
+        self.memory_states = [.0 for _ in range(self.capacity)]
         self.job_queue = PriorityQueue()
 
         Process.ARRIVAL = self.arrival
@@ -91,7 +91,7 @@ class Memory:
         """
         self.job_queue.put(Process(relative_time=self.start_time))
 
-        for i in range(iterations):
+        for i in tqdm(range(iterations)):
             logging.info("--- iteration = %i", i)
             next_proc = self.job_queue.get()
 
@@ -102,6 +102,7 @@ class Memory:
 
             logging.info("memory state = %s", self.memory_states)
             logging.info("job queue = %s", [str(i) for i in self.job_queue.queue])
+            logging.info("queue = %s", self.ocup)
             logging.debug("tempo = %s", self.tempo)
             logging.debug("memory state sum = %f", sum(self.memory_states))
 
