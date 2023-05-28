@@ -22,4 +22,4 @@ logging.basicConfig(
 )
 
 # Set the log level for the console handler to INFO
-logging.getLogger('').handlers[0].setLevel(logging.WARNING)
+logging.getLogger('').handlers[0].setLevel(logging.DEBUG)

@@ -1,37 +1,44 @@
+import logging
 import random
 from enum import Enum
 
+import loggin_config
 
 
 class Direction(Enum):
     IN = 'IN'
+    TRAN = 'TRAN'
     OUT = 'OUT'
 
 
 # random.seed(int(time.time()))
-random.seed(1345)
+random.seed(132)
+
+r = [0.9921, 0.0004, 0.5534, 0.2761, 0.3398, 0.8963, 0.9023, 0.0132,
+     0.4569, 0.5121, 0.9208, 0.0171, 0.2299, 0.8545, 0.6001, 0.2921]
+
 
 class Process:
-    # r = [.3276, .8851, .1643, .5542, .6813, .7221, .9881]
-    ARRIVAL = (1, 2)
-    RUNNING = (3, 6)
 
-    def __init__(self, global_time=.0, direction: Direction = Direction.IN, relative_time=None):
+    def __init__(self, min_time=0, max_time=0, global_tempo=.0, direction: Direction = Direction.IN, init=None):
+        logging.info(f"Initializing process {direction  }")
+
         self.direction = direction
-        if relative_time is not None:
-            self.relative_time = relative_time
-        elif direction == Direction.IN:
-            self.relative_time = (
-                self.ARRIVAL[1] - self.ARRIVAL[0]) * random.random() + self.ARRIVAL[0] + global_time
+        if init is not None:
+            self.relative_time = init
+            self.tempo = self.relative_time
         else:
-            self.relative_time = (
-                self.RUNNING[1] - self.RUNNING[0]) * random.random() + self.RUNNING[0] + global_time
+            random = r.pop(0)
+            logging.debug(
+                f"relative = ({max_time}-{min_time})*{random}+{min_time}")
+            self.relative_time = (max_time - min_time) * random + min_time
+            self.tempo = self.relative_time + global_tempo
 
     def __lt__(self, other):
-        return self.relative_time < other.relative_time
+        return self.tempo < other.tempo
 
     def __repr__(self) -> str:
         return f"Process({self.relative_time=},{self.direction=})"
-    
+
     def __str__(self) -> str:
-        return f"[{self.direction._name_}, {self.relative_time}]"
+        return f"[{self.direction._name_}, {self.tempo}]"

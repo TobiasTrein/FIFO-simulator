@@ -3,10 +3,16 @@ import argparse
 import yaml
 
 from memory import Memory
+from tandem import Tandem
 
 def main(config_path):
     with open(config_path, "r", encoding='UTF-8') as config:
         init_params = yaml.safe_load(config)
+        
+    iterations = init_params.pop("iterations")
+    memory = Tandem(**init_params) 
+    result_queue = memory.run(iterations)
+    return
 
     iterations = init_params.pop("iterations")
     # reps_queue = []
@@ -31,7 +37,7 @@ def main(config_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Description of your program.")
     parser.add_argument('-c', '--config', type=str,
-                        help='YMAL config file path', default="config.yml")
+                        help='YMAL config file path', default="config2.yml")
 
     args = parser.parse_args()
     main(args.config)
