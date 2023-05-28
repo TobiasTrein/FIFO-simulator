@@ -5,13 +5,14 @@ import yaml
 from memory import Memory
 from tandem import Tandem
 
+
 def main(config_path):
     with open(config_path, "r", encoding='UTF-8') as config:
         init_params = yaml.safe_load(config)
-        
-    iterations = init_params.pop("iterations")
-    memory = Tandem(**init_params) 
-    result_queue = memory.run(iterations)
+
+    init_params.pop("reps")
+    memory = Tandem(**init_params)
+    result_queue = memory.run()
     return
 
     iterations = init_params.pop("iterations")
@@ -34,11 +35,12 @@ def main(config_path):
     #     print(f"{i}\t{(mean / total * 100):.2f}%\t{mean:.4f}")
     # print(f"total\t100%\t{total:.4f}\n")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Description of your program.")
+    parser = argparse.ArgumentParser(
+        description="Description of your program.")
     parser.add_argument('-c', '--config', type=str,
                         help='YMAL config file path', default="config2.yml")
 
     args = parser.parse_args()
     main(args.config)
-    

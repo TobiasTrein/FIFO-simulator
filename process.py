@@ -28,10 +28,9 @@ class Process:
             self.relative_time = init
             self.tempo = self.relative_time
         else:
-            random = r.pop(0)
-            logging.debug(
-                f"relative = ({max_time}-{min_time})*{random}+{min_time}")
-            self.relative_time = (max_time - min_time) * random + min_time
+            ran = r.pop(0)
+            # ran = random.random()
+            self.relative_time = (max_time - min_time) * ran + min_time
             self.tempo = self.relative_time + global_tempo
 
     def __lt__(self, other):
