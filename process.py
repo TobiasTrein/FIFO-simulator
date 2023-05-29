@@ -7,15 +7,15 @@ import loggin_config
 
 class Direction(Enum):
     IN = 'IN'
-    TRAN = 'TRAN'
+    #TRAN = 'TRAN'
     OUT = 'OUT'
 
 
-# random.seed(int(time.time()))
-random.seed(132)
+##random.seed(int(time.time()))
+##random.seed(132)
 
-r = [0.9921, 0.0004, 0.5534, 0.2761, 0.3398, 0.8963, 0.9023, 0.0132,
-     0.4569, 0.5121, 0.9208, 0.0171, 0.2299, 0.8545, 0.6001, 0.2921]
+#r = [0.9921, 0.0004, 0.5534, 0.2761, 0.3398, 0.8963, 0.9023, 0.0132,
+#     0.4569, 0.5121, 0.9208, 0.0171, 0.2299, 0.8545, 0.6001, 0.2921]
 
 
 class Process:
@@ -28,8 +28,8 @@ class Process:
             self.relative_time = init
             self.tempo = self.relative_time
         else:
-            ran = r.pop(0)
-            # ran = random.random()
+            ##ran = r.pop(0)
+            ran = random.random()
             self.relative_time = (max_time - min_time) * ran + min_time
             self.tempo = self.relative_time + global_tempo
 

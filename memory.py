@@ -6,6 +6,8 @@ from dataclasses import dataclass
 
 from process import Direction, Process
 import loggin_config
+import time
+import random
 
 @dataclass
 class Memory:
@@ -38,6 +40,7 @@ class Memory:
     job_queue: PriorityQueue = None
     ocup: int = 0
     tempo: float = 0.
+    seed: int = random.seed(int(time.time()))
 
     def __post_init__(self):
         self.memory_states = [.0 for _ in range(self.capacity)]

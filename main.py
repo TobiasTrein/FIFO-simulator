@@ -10,30 +10,29 @@ def main(config_path):
     with open(config_path, "r", encoding='UTF-8') as config:
         init_params = yaml.safe_load(config)
 
-    init_params.pop("reps")
-    memory = Tandem(**init_params)
-    result_queue = memory.run()
-    return
+    ##init_params.pop("reps")
+    ##memory = Tandem(**init_params)
+    ##result_queue = memory.run()
 
     iterations = init_params.pop("iterations")
-    # reps_queue = []
-    # reps_total = []
+    reps_queue = []
+    reps_total = []
     for i in range(init_params.pop("reps")):
         print(f"Starting simulation #{i+1}")
-        memory = Memory(**init_params)
+        memory = Tandem(**init_params)
         result_queue = memory.run(iterations)
         total = sum(result_queue)
         for i, state in enumerate(result_queue):
             print(f"{i}\t{(state / total * 100):.2f}%\t{state:.4f}")
         print(f"total\t100%\t{total:.4f}\n")
-        # reps_queue.append(result_queue)
-        # reps_total.append(total)
+        reps_queue.append(result_queue)
+        reps_total.append(total)
 
-    # print("mean")
-    # total = sum(reps_total) / len(reps_total)
-    # for i, mean in enumerate([sum(column) / len(column) for column in zip(*reps_queue)]):
-    #     print(f"{i}\t{(mean / total * 100):.2f}%\t{mean:.4f}")
-    # print(f"total\t100%\t{total:.4f}\n")
+    print("mean")
+    total = sum(reps_total) / len(reps_total)
+    for i, mean in enumerate([sum(column) / len(column) for column in zip(*reps_queue)]):
+        print(f"{i}\t{(mean / total * 100):.2f}%\t{mean:.4f}")
+    print(f"total\t100%\t{total:.4f}\n")
 
 
 if __name__ == "__main__":
