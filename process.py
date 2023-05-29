@@ -7,7 +7,7 @@ import loggin_config
 
 class Direction(Enum):
     IN = 'IN'
-    #TRAN = 'TRAN'
+    TRAN = 'TRAN'
     OUT = 'OUT'
 
 

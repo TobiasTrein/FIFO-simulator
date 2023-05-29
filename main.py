@@ -14,23 +14,41 @@ def main(config_path):
     ##memory = Tandem(**init_params)
     ##result_queue = memory.run()
 
-    iterations = init_params.pop("iterations")
-    reps_queue = []
-    reps_total = []
-    for i in range(init_params.pop("reps")):
+    ##iterations = init_params.pop("iterations")
+    reps_chqueue = []
+    reps_pqueue = []
+    reps_chqueue_total = []
+    reps_pqueue_total = []
+
+    reps = init_params.pop("reps")
+    for i in range(reps):
         print(f"Starting simulation #{i+1}")
         memory = Tandem(**init_params)
-        result_queue = memory.run(iterations)
-        total = sum(result_queue)
-        for i, state in enumerate(result_queue):
-            print(f"{i}\t{(state / total * 100):.2f}%\t{state:.4f}")
-        print(f"total\t100%\t{total:.4f}\n")
-        reps_queue.append(result_queue)
-        reps_total.append(total)
+        result_chqueue, result_pqueue = memory.run()
 
-    print("mean")
-    total = sum(reps_total) / len(reps_total)
-    for i, mean in enumerate([sum(column) / len(column) for column in zip(*reps_queue)]):
+        '''for i, state in enumerate(result_chqueue):
+            print("FILA 1")
+            print(f"{i}\t{(state / total_chqueue * 100):.2f}%\t{state:.4f}")
+        print(f"total\t100%\t{total_chqueue:.4f}\n")
+        for i, state in enumerate(result_pqueue):
+            print("FILA 2")
+            print(f"{i}\t{(state / total_pqueue * 100):.2f}%\t{state:.4f}")
+        print(f"total\t100%\t{total_pqueue:.4f}\n")'''
+        
+        reps_chqueue.append(result_chqueue)
+        reps_pqueue.append(result_pqueue)
+        reps_chqueue_total.append(sum(result_chqueue))
+        reps_pqueue_total.append(sum(result_pqueue))
+
+    print("average Fila 1")
+    total = sum(reps_chqueue_total) / reps
+    for i, mean in enumerate([sum(column) / len(column) for column in zip(*reps_chqueue)]):
+        print(f"{i}\t{(mean / total * 100):.2f}%\t{mean:.4f}")
+    print(f"total\t100%\t{total:.4f}\n")
+
+    print("average Fila 2")
+    total = sum(reps_pqueue_total) / reps
+    for i, mean in enumerate([sum(column) / len(column) for column in zip(*reps_pqueue)]):
         print(f"{i}\t{(mean / total * 100):.2f}%\t{mean:.4f}")
     print(f"total\t100%\t{total:.4f}\n")
 

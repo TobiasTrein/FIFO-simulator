@@ -125,3 +125,4 @@ class Tandem:
         for i, state in enumerate(self.pqueue.memory_states):
             print(f"{i}\t{(state / self.tempo * 100):.2f}%\t{state:.4f}")
         print(f"total\t100%\t{self.tempo:.4f}\n")
+        return (self.chqueue.memory_states, self.pqueue.memory_states)

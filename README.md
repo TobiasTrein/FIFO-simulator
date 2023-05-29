@@ -14,38 +14,44 @@ https://youtu.be/ntCMsJdiD6k
 
 To run this script, you will need to have Python installed on your computer. The script has been developed and tested on Python 3.
 
+Run the following command to download all the dependencies
+```bash
+pip install -r requirements.txt
+```
+
 ## Usage
 
-You can run the script with the following command:
+You can run the script providing a config.yml file with the same options as above, one option per line, as the example:
 
-```python
-python main.py -k <int> -c <int> -a <string> -r <string> -s <float> -i <int> -e <int> -d <bool>
+```yml
+ch:
+  # name
+  - "ch"
+  # arrival
+  - [2, 3]
+  # running
+  - [2, 5]
+  # capacity
+  - 3
+  # workers
+  - 2
+p:
+  # name
+  - "p"
+  # arrival
+  - [2, 5]
+  # running
+  - [3, 5]
+  # capacity
+  - 3
+  # workers
+  - 1
+start_time: 2.5
+iterations: 100000
+reps: 5
 ```
 
-Where the options are:
-
-+ -k: an integer value for K
-+ -c: an integer value for C
-+ -a: arrival interval, in the format "start..end"
-+ -r: running interval, in the format "start..end"
-+ -s: start time
-+ -e: executions
-+ -d: debug
-
-You can also provide a config.txt file with the same options as above, one option per line, in the following order:
-
-```txt
-arrival interval
-running interval
-K
-C
-start time
-iterations
-number of executions
-debug
-```
-
-If the config.txt file is not present, the script will use default values.
+If the config.yml file is not present, the script will use default values.
 
 # Docker
 
