@@ -33,7 +33,7 @@ def main(config_path):
             mean.append([sum(values) / len(s) for values in zip(*s)])
 
         table = tabulate(mean, headers=[
-            "Queue state", "Time(seconds)", "Probability"], floatfmt=".2f", showindex="always")
+            "Queue state", "Time(seconds)", "Probability"], floatfmt=".2f")
         print(table, "\n")
         mean.clear()
 

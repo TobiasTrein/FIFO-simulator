@@ -34,7 +34,7 @@ class Memory:
             if (proc := current_q.running()) is not None:
                 self.job_queue.put(proc)
 
-            if (next_idx := current_q.next_idx) is not None:
+            if (next_idx := current_q.chooseNext()) is not None:
                 next_q = self.queues[next_idx]
                 if (proc := next_q.arriving()) is not None:
                     self.job_queue.put(proc)
@@ -59,12 +59,14 @@ class Memory:
 
         for queue in self.queues.values():
             print(f"Queue {queue.idx}\n")
-            statistics = [(item, item / self.global_time * 100)
-                          for item in queue.queue_states]
-            res.append(statistics)
+            statistics = [(idx, item, item / self.global_time)
+                          for idx, item in enumerate(queue.queue_states)]
+
+            res.append(statistics.copy())
+            statistics.append(("Total", self.global_time, 1))
 
             table = tabulate(statistics, headers=[
-                             "Queue state", "Time(seconds)", "Probability"], floatfmt=".2f", showindex="always")
+                             "Queue state", "Time(seconds)", "Probability"], floatfmt=".2f")
             print(table, "\n")
 
         return res

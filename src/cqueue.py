@@ -14,10 +14,10 @@ random.seed(1345)
 @dataclass
 class Queue:
     idx: str
-    capacity: int
     workers: int
     run: tuple[int, int]
     arrival: tuple[int, int] = None
+    capacity: int = None
     next_idx: str = None
     start: bool = False
 
@@ -28,6 +28,24 @@ class Queue:
 
     def __post_init__(self):
         self.queue_states = [.0 for _ in range(self.capacity + 1)]
+
+    def chooseNext(self):
+        if self.next_idx is None:
+            return
+
+        if isinstance(self.next_idx, str):
+            return self.next_idx
+
+        keys = list(self.next_idx.keys())
+        values = list(self.next_idx.values())
+
+        if (outSum := sum(values)) < 1.0:
+            keys.append(None)
+            values.append(1.0 - outSum)
+
+        chosen_key = random.choices(keys, values)[0]
+
+        return chosen_key
 
     def update(self, global_time):
         internal_time = sum(self.queue_states)
@@ -42,7 +60,7 @@ class Queue:
         return Process(self.idx, time, Direction.IN)
 
     def arriving(self) -> Process:
-        if self.ocup < self.capacity:
+        if self.capacity is None or self.ocup < self.capacity:
             self.ocup += 1
             if self.ocup <= self.workers:
                 return self.scheduleOut()

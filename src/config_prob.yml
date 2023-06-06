@@ -1,17 +1,24 @@
 iterations: 1000
 reps: 1
+seed: 123
 
 queues:
   q1:
     capacity: 3
     workers: 2
-    run: [2,5]
     arrival: [2,3]
-    next_idx: q2
+    run: [2,5]
+    next_idx: 
+      q2: 0.3
+      q3: 0.7
     start: True
   q2:
     capacity: 3
     workers: 1
+    run: [3,5]
+  q3:
+    capacity: 3
+    workers: 2
     run: [3,5]
 
 first_proc:
