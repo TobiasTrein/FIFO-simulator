@@ -3,7 +3,7 @@ reps: 5
 
 queues:
   q1:
-    capacity: 5
+    # capacity: 5
     workers: 1
     run: [3,5]
     arrival: [2,4]

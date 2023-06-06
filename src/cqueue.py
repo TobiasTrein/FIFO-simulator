@@ -11,6 +11,22 @@ r2 = [0.9921, 0.0004, 0.5534, 0.2761, 0.3398, 0.8963, 0.9023, 0.0132,
 random.seed(1345)
 
 
+class _QueueStates(list):
+    def __init__(self, capacity):
+        super().__init__()
+        self.extend([.0] * (capacity + 1))
+
+    def __getitem__(self, index):
+        if index >= len(self):
+            self.extend([0.0] * (index - len(self) + 1))
+        return super().__getitem__(index)
+
+    def __setitem__(self, index, value):
+        if index >= len(self):
+            self.extend([0.0] * (index - len(self) + 1))
+        super().__setitem__(index, value)
+
+
 @dataclass
 class Queue:
     idx: str
@@ -21,13 +37,13 @@ class Queue:
     next_idx: str = None
     start: bool = False
 
-    queue_states: list[float] = None
+    queue_states: _QueueStates = None
     ocup: int = 0
 
     global_time: float = .0
 
     def __post_init__(self):
-        self.queue_states = [.0 for _ in range(self.capacity + 1)]
+        self.queue_states = _QueueStates(self.capacity)
 
     def chooseNext(self):
         if self.next_idx is None:
@@ -47,10 +63,9 @@ class Queue:
 
         return chosen_key
 
-    def update(self, global_time):
-        internal_time = sum(self.queue_states)
+    def update(self, global_time) -> None:
         self.global_time = global_time
-        self.queue_states[self.ocup] += global_time - internal_time
+        self.queue_states[self.ocup] += global_time - sum(self.queue_states)
 
     def scheduleIn(self) -> Process:
         # ran = r.pop(0)
