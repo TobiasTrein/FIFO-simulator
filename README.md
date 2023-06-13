@@ -1,6 +1,6 @@
 # Introduction
 
-This program simulates a simple queue with a given number of server processes and capacity. It uses an event-based simulation approach and allows the user to specify the arrival and running time of jobs in the memory.
+This program is a queue simulator that works based on kendall's notation. It supports simple queues, tandem queues and probability queues. There's no limitation, besides cpu and memory consuption, on the size or ammounts of queues. 
 
 ##Execution Video
 https://youtu.be/ntCMsJdiD6k
@@ -24,34 +24,73 @@ pip install -r requirements.txt
 You can run the script providing a config.yml file with the same options as above, one option per line, as the example:
 
 ```yml
-ch:
-  # name
-  - "ch"
-  # arrival
-  - [2, 3]
-  # running
-  - [2, 5]
-  # capacity
-  - 3
-  # workers
-  - 2
-p:
-  # name
-  - "p"
-  # arrival
-  - [2, 5]
-  # running
-  - [3, 5]
-  # capacity
-  - 3
-  # workers
-  - 1
-start_time: 2.5
-iterations: 100000
+# how much iterations a rep will have
+iterations: 1000
+# how much repetitions the code will generate 
 reps: 5
+
+# array of queues
+queues:
+  # queue #1. the value will correspond to the id of the object
+  q1:
+    # REQUIRED ONLY AT THE FIRST QUEUE
+    # min-max arrival time of a process. this must be a tuple of ints
+    arrival: [1,2]
+
+    # REQUIRED FIELDS
+    # how many servers/workers are available in this queue
+    workers: 1
+    # min-max run time of a process. this must be a tuple of ints
+    run: [1,2]
+
+    # OPTIONALS FIELDS
+    # queue capacity. if not setted, it will be infinity
+    capacity: 2
+    # next_idx will be explained bellow...
+    next_idx: 
+  q2:
+    ...
+  ...
+
+# first proccess arrival time
+first_proc: 2.5
 ```
 
+The `next_idx` queue variable should assume one of the following three configurations:
+
+- Empty: If there's no next queue, you shouldn't set this field
+- String: If there's only one next queue with 100% prob., this field should be just a string variable like `next_idx: q2`
+- List: If there's more than one cases, you must create a list with the key being the queue id and the value beeing the probability. If there's a chance of the proccess to go out, you don't need to set anything, the program will calculate based on the missing ammount. ex: next queue must be 30% to q2, 30% to q3 and 40% to leave, then:
+
+```yml
+...
+queues:
+  q1:
+    ...
+    next_idx:
+      q2: 0.3
+      q3: 0.3
+  q2:
+    ...
+  q3:
+    ...
+...
+```
+
+
 If the config.yml file is not present, the script will use default values.
+
+Then, run:
+
+```bash
+python3 main.py -c config.yml
+```
+
+If you need help, run:
+
+```bash
+python3 main.py --help
+```
 
 # Docker
 

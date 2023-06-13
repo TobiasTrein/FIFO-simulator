@@ -11,7 +11,6 @@ queues:
     next_idx: 
       q2: 0.3
       q3: 0.7
-    start: True
   q2:
     capacity: 3
     workers: 1
@@ -21,5 +20,4 @@ queues:
     workers: 2
     run: [3,5]
 
-first_proc:
-  time: 2.5
+first_proc: 2.5

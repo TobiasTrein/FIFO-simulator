@@ -43,8 +43,8 @@ class Memory:
         for k, v in queues.items():
             queue = Queue(k, **v)
             self.queues[k] = queue
-            if queue.start:
-                first = Process(queue.idx, **process)
+            if queue.arrival is not None:
+                first = Process(queue.idx, process)
                 self.job_queue.put(first)
 
         assert not self.job_queue.empty(), "you must define a start queue"

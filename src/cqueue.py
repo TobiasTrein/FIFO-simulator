@@ -31,11 +31,10 @@ class _QueueStates(list):
 class Queue:
     idx: str
     workers: int
-    run: tuple[int, int]
-    arrival: tuple[int, int] = None
-    capacity: int = None
+    run: tuple[float, float]
+    arrival: tuple[float, float] = None
+    capacity: int = 0
     next_idx: str = None
-    start: bool = False
 
     queue_states: _QueueStates = None
     ocup: int = 0

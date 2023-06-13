@@ -8,11 +8,9 @@ queues:
     run: [2,5]
     arrival: [2,3]
     next_idx: q2
-    start: True
   q2:
     capacity: 3
     workers: 1
     run: [3,5]
 
-first_proc:
-  time: 2.5
+first_proc: 2.5

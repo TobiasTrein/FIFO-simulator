@@ -1,0 +1,28 @@
+iterations: 1000
+reps: 1
+
+queues:
+  f1:
+    arrival: [1,4]
+    workers: 1
+    run: [1,1.5]
+    next_idx: 
+      f2: 0.8
+      f3: 0.2
+  f2:
+    workers: 3
+    capacity: 5
+    run: [5,10]
+    next_idx: 
+      f1: 0.3
+      f3: 0.5
+      # out: 0.2
+  f3:
+    workers: 2
+    capacity: 8
+    run: [3,5]
+    next_idx: 
+      f2: 0.7
+      # out: 0.3
+
+first_proc: 2.5

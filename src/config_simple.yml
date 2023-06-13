@@ -3,11 +3,9 @@ reps: 5
 
 queues:
   q1:
-    # capacity: 5
+    capacity: 5
     workers: 1
     run: [3,5]
     arrival: [2,4]
-    start: True
 
-first_proc:
-  time: 3.0
+first_proc: 3.0
