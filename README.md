@@ -3,7 +3,11 @@
 This program is a queue simulator that works based on kendall's notation. It supports simple queues, tandem queues and probability queues. There's no limitation, besides cpu and memory consuption, on the size or ammounts of queues. 
 
 ##Execution Video
-https://youtu.be/ntCMsJdiD6k
+./execution.mov
+
+or
+
+https://youtu.be/njVLi-LSSJU
 
 ##Authors
 + Delmar Lucas Dorneles Quaresma (https://github.com/LucasDornelesQuaresma)
