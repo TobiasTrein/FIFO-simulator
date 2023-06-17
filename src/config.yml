@@ -1,4 +1,4 @@
-iterations: 1000
+iterations: 100000
 reps: 1
 
 queues:
@@ -16,13 +16,11 @@ queues:
     next_idx: 
       f1: 0.3
       f3: 0.5
-      # out: 0.2
   f3:
     workers: 2
     capacity: 8
-    run: [3,5]
+    run: [10,20]
     next_idx: 
       f2: 0.7
-      # out: 0.3
 
-first_proc: 2.5
+first_proc: 1

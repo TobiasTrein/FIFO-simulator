@@ -74,7 +74,7 @@ class Queue:
         return Process(self.idx, time, Direction.IN)
 
     def arriving(self) -> Process:
-        if self.capacity is None or self.ocup < self.capacity:
+        if not self.capacity or self.ocup < self.capacity:
             self.ocup += 1
             if self.ocup <= self.workers:
                 return self.scheduleOut()
