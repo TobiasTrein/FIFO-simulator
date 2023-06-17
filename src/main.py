@@ -25,6 +25,9 @@ def main(config_path):
         res = memory.run(first_proc, queues)
         statistics.append(res)
 
+    if reps == 1:
+        return
+
     print("Statistics\n")
 
     for s1 in zip(*statistics):

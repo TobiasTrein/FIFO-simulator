@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.10
 
 WORKDIR /app
 
@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src/ .
 
-CMD [ "python", "main.py", "-c", "config_tandem.yml" ]
+CMD [ "python", "main.py", "-c", "config.yml" ]
